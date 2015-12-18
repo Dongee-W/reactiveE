@@ -4,7 +4,6 @@ import aia.ch05.s04.DataStructure._
 import dispatch._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.Success
 
 /**
  * WeatherService
