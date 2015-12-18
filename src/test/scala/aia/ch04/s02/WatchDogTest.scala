@@ -12,12 +12,14 @@ class WatchDogTest extends TestKit(ActorSystem("testsystem"))
   with WordSpecLike
   with StopSystemAfterAll {
 
-  "A WatchDog watch the death of its Master" in {
-    val dogsMaster = system.actorOf(Props[Master], "master")
-    val watchDog = system.actorOf(WatchDog.props(dogsMaster), "wd")
+  "A WatchDog" must {
+    "response to the death of its Master" in {
 
-    dogsMaster ! PoisonPill
+      val dogsMaster = system.actorOf(Props[Master], "master")
+      val watchDog = system.actorOf(WatchDog.props(dogsMaster), "wd")
+
+      dogsMaster ! PoisonPill
+    }
   }
-
 
 }
