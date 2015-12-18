@@ -27,8 +27,11 @@ class FileFinderSupervisor(sources: Vector[String],
 
   def receive = {
     case Terminated(fileFinder) =>
-      log.info("fileWatcher Terminated..")
+      log.info("FileFinder " + fileFinder + " terminated...")
       fileFinders = fileFinders.filterNot(w => w == fileFinder)
-      if (fileFinders.isEmpty) context.system.terminate()
+      if (fileFinders.isEmpty) {
+        context.system.terminate()
+        log.info("System terminated...")
+      }
   }
 }

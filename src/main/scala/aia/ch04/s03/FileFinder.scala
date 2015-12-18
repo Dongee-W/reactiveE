@@ -18,10 +18,6 @@ class FileFinder(logProcSupervisor: ActorRef) extends Actor with ActorLogging {
 
   var sourceUriTarget = ""
 
-  override def postStop() = {
-    log.info("stop")
-  }
-
   def receive = {
     case NewFile(sourceUri) => {
       val file = new File(sourceUri)
@@ -30,7 +26,6 @@ class FileFinder(logProcSupervisor: ActorRef) extends Actor with ActorLogging {
     }
 
     case FinishLogging(file) => {
-      log.info("receive finishing Logging")
       context.stop(self)
     }
 

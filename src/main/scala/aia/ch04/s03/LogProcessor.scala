@@ -27,19 +27,17 @@ class LogProcessor(writerSupervisor: ActorRef) extends Actor with ActorLogging {
         linesVec = linesVec :+ transformed
         writerSupervisor ! transformed
       })
-      log.info("Finish logging file: " + file.getPath )
       senders = senders :+ (sender(), file)
     }
 
     case WriteConfirmed(line) => {
-      log.info("Write confirmed")
       linesVec = linesVec.filterNot(line == _)
       if(!linesVec.exists(_.file == line.file)) {
         val original = senders.find(x => x._2 == line.file)
 
         original match {
           case Some(x) =>
-            log.debug("Find sender" + x)
+            log.info("Finish Logging file: " + line.file)
             x._1 ! FinishLogging(line.file)
           case None => log.error("Shit happened.")
         }
